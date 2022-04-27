@@ -16,6 +16,7 @@ function App() {
 	const [displayKind, setDisplayKind] = useState('');
 	const [jobs, setJobs] = useState([]);
 	const [techItems, setTechItems] = useState([]);
+	const [userIsLoggedIn, setUserIsLoggedIn] = useState(true);
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -73,11 +74,16 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
+
+			{userIsLoggedIn && (
+				<>
 			<button onClick={handleToggleView}>Toggle View</button>
 			{displayKind === 'full' ? (
 				<JobsFull jobs={jobs} handleStatusChange={handleStatusChange} techItems={techItems} />
 			) : (
 				<JobsList jobs={jobs} />
+			)}
+				</>
 			)}
 		</div>
 	);
