@@ -16,7 +16,7 @@ function App() {
 	const [displayKind, setDisplayKind] = useState('');
 	const [jobs, setJobs] = useState([]);
 	const [techItems, setTechItems] = useState([]);
-	const [userIsLoggedIn, setUserIsLoggedIn] = useState(true);
+	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -45,7 +45,7 @@ function App() {
 			const data = await response.json();
 			setTechItems(data);
 		})();
-	}
+	};
 
 	useEffect(() => {
 		loadLocalStorage();
@@ -75,15 +75,21 @@ function App() {
 		<div className="App">
 			<h1>Job Application Process</h1>
 
-			{userIsLoggedIn && (
+			{userIsLoggedIn ? (
 				<>
-			<button onClick={handleToggleView}>Toggle View</button>
-			{displayKind === 'full' ? (
-				<JobsFull jobs={jobs} handleStatusChange={handleStatusChange} techItems={techItems} />
-			) : (
-				<JobsList jobs={jobs} />
-			)}
+					<button onClick={handleToggleView}>Toggle View</button>
+					{displayKind === 'full' ? (
+						<JobsFull
+							jobs={jobs}
+							handleStatusChange={handleStatusChange}
+							techItems={techItems}
+						/>
+					) : (
+						<JobsList jobs={jobs} />
+					)}
 				</>
+			) : (
+				<div>todo: login form</div>
 			)}
 		</div>
 	);
