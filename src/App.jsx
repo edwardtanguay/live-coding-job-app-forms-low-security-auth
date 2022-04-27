@@ -3,6 +3,7 @@ import './App.scss';
 import _jobs from './data/jobs.json';
 import { JobsFull } from './components/JobsFull';
 import { JobsList } from './components/JobsList';
+import md5 from 'md5';
 
 _jobs.forEach((job) => {
 	job.status = 'accepted';
@@ -76,11 +77,14 @@ function App() {
 
 	const handleSubmitButton = (e) => {
 		e.preventDefault();
-		if (fieldPassword === '123') {
+		const hash = md5(fieldPassword);
+		if (hash === '8c6744c9d42ec2cb9e8885b54ff744d0') {
 			setUserIsLoggedIn(true);
 		} else {
 			setFormMessage('bad login');
 		}
+		setFieldLogin('');
+		setFieldPassword('');
 	};
 
 	const handleFieldLogin = (e) => {
@@ -91,13 +95,20 @@ function App() {
 		setFieldPassword(e.target.value);
 	};
 
+	const handleLogoutButton = () => {
+		setUserIsLoggedIn(false);
+	}
+
 	return (
 		<div className="App">
 			<h1>Job Application Process</h1>
 
 			{userIsLoggedIn ? (
 				<>
-					<button onClick={handleToggleView}>Toggle View</button>
+					<div className="buttonArea">
+						<button onClick={handleToggleView}>Toggle View</button>
+						<button onClick={handleLogoutButton}>Logout</button>
+					</div>
 					{displayKind === 'full' ? (
 						<JobsFull
 							jobs={jobs}
