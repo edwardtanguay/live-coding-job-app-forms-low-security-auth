@@ -19,6 +19,7 @@ function App() {
 	const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
 	const [fieldLogin, setFieldLogin] = useState('');
 	const [fieldPassword, setFieldPassword] = useState('');
+	const [formMessage, setFormMessage] = useState('');
 
 	const saveToLocalStorage = () => {
 		if (displayKind !== '') {
@@ -75,7 +76,11 @@ function App() {
 
 	const handleSubmitButton = (e) => {
 		e.preventDefault();
-		console.log(fieldLogin, fieldPassword);
+		if (fieldPassword === '123') {
+			setUserIsLoggedIn(true);
+		} else {
+			setFormMessage('bad login');
+		}
 	};
 
 	const handleFieldLogin = (e) => {
@@ -107,6 +112,9 @@ function App() {
 				<form>
 					<fieldset>
 						<legend>Welcome</legend>
+						{formMessage !== '' && (
+							<div className="formMessage">{formMessage}</div>
+						)}
 						<div className="row">
 							<label htmlFor="login2">Login</label>
 							<input
@@ -119,7 +127,12 @@ function App() {
 						</div>
 						<div className="row">
 							<label htmlFor="password">Password</label>
-							<input value={fieldPassword} onChange={handleFieldPassword} type="password" id="password" />
+							<input
+								value={fieldPassword}
+								onChange={handleFieldPassword}
+								type="password"
+								id="password"
+							/>
 						</div>
 						<div className="buttonRow">
 							<button onClick={handleSubmitButton}>Enter</button>
